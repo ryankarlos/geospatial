@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 pd.set_option("display.max_columns", 15)
 
 
-def plot_basemap_from_shapefile(filepath, projection="mercrator"):
+def plot_basemap_from_shapefile(filepath, projection):
     """
     Plots basemap from shapefile
     Parameters
     ----------
-    projection(Optional, Default:'mercractor': str, int
+    projection: str, int
     Setting ccoordinate reference system to mercrator or WGS84: Lat/Lon if
     passed as string. Alternatively can pass in the EPSG code if different
     projection required.
