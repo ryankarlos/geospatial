@@ -1,22 +1,8 @@
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
-import contextily as ctx
-import pyproj
 
 pd.set_option("display.max_columns", 15)
-
-
-def check_epsg_code(str):
-    """
-    Returns epsg code for the proj string passed in
-    Returns
-    -------
-    EPSG code
-
-    """
-    crs = pyproj.CRS(str)
-    return crs.to_epsg()
 
 
 def plot_basemap_from_shapefile(filepath, projection="mercrator"):
@@ -61,11 +47,3 @@ def add_layer_to_plot(layer_df, ax, base_df):
     -------
     plot ax object with all layers
     """
-
-
-if __name__ == "__main__":
-    london, ax = plot_basemap_from_shapefile(
-        "data/ESRI/London_Borough_Excluding_MHW.shp"
-    )
-    print(london.head())
-    plt.show()
