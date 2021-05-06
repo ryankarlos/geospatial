@@ -10,11 +10,12 @@ pysal = "*"
 xarray = "*"
 dask = "*"
 vaex = "*"
-
+contextily = "*"
+black = "*"
 
 [dev-packages]
 pytest = "*"
-
+black = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.8.8"
