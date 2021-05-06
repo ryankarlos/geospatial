@@ -4,18 +4,20 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-geopandas = "*"
-keplergl = "*"
-pysal = "*"
-xarray = "*"
-dask = "*"
-vaex = "*"
-contextily = "*"
-black = "*"
+geopandas = "0.9.0"
+keplergl = "0.2.2"
+pysal = "2.4.0"
+xarray = "0.18.0"
+dask = "2021.4.1"
+vaex = "4.1.0"
+contextily = "1.1.0"
 
 [dev-packages]
-pytest = "*"
-black = "*"
+pytest = "6.2.4"
+black = "21.5b0"
+pre-commit = "2.12.1"
+flake8="3.9.1"
+isort="5.8.0"
 
 [requires]
 python_version = "3.8.8"
