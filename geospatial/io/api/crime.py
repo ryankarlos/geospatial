@@ -12,7 +12,7 @@ def get_neighbourhoods(get_request, police_id):
     return get_request(url)
 
 
-def get_stop_search_by_force(get_request, police_id):
+def get_stop_search_by_force(get_request, police_id, calls):
     """
     Retrieve stop and search data for a given police force. if date is not provided,
     returns all stop and search data which have lead to outcomes like arrest, court summons
@@ -22,7 +22,7 @@ def get_stop_search_by_force(get_request, police_id):
     new_list = []
     url = os.path.join(URL_CRIME, f"stops-force?force={police_id}")
     # url = os.path.join(URL_CRIME, f"stops-force?force={police_id}&date={date}")
-    response = get_request(url)
+    response = get_request(url, calls)
     for json in response:
         if (json.get("outcome") not in IGNORED_OUTCOMES) and (
             json.get("location") is not None
@@ -33,12 +33,12 @@ def get_stop_search_by_force(get_request, police_id):
     return new_list
 
 
-def get_police_id(get_request, force_name):
+def get_police_id(func, force_name):
     """
     Get police id and police force names in json
     """
     url = os.path.join(URL_CRIME, "forces")
-    response = get_request(url)
+    response = func(url)
     for json in response:
         if json.get("name") == force_name:
             police_id = json.get("id")

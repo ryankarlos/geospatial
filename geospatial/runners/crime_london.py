@@ -1,8 +1,6 @@
 import argparse
-import sys
 from argparse import Namespace
 
-import geopandas as gpd
 import matplotlib.pyplot as plt
 from geospatial.io.api.call_api import get_request
 from geospatial.io.api.crime import get_police_id, get_stop_search_by_force
@@ -46,7 +44,7 @@ def argparse_args():
         "-proj",
         "--projection",
         type=str,
-        default="mercrator",
+        default="WGS84",
         help="the crs to be used when creating the basemap",
     )
     parser.add_argument(
@@ -63,7 +61,7 @@ def argparse_args():
 def main():
     args = argparse_args()
     police_id = get_police_id(get_request, args.police_force)
-    crime_london_json = get_stop_search_by_force(get_request, police_id)
+    crime_london_json = get_stop_search_by_force(get_request, police_id, calls=30)
     base_df, base_ax = plot_basemap_from_shapefile(args.shapefile, args.projection)
     crime_ds = response_to_gdf(crime_london_json, base_df)
     kwargs = {"how": "right", "op": "intersects"}
@@ -74,4 +72,5 @@ def main():
 
 if __name__ == "__main__":
     _, _, ax = main()
+    plt.ylim([51.2, 51.8])
     plt.show()

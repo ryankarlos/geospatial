@@ -11,6 +11,7 @@ xarray = "0.18.0"
 dask = "2021.4.1"
 vaex = "4.1.0"
 contextily = "1.1.0"
+grequests = "*"
 
 [dev-packages]
 pytest = "6.2.4"

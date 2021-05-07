@@ -1,12 +1,19 @@
 import logging
 
-import requests
 from requests.exceptions import HTTPError
+
+import grequests
+from gevent import monkey as curious_george
+
+# need to patch before import func which uses grequests
+# https://stackoverflow.com/questions/56309763/grequests-monkey-patch-warning
+curious_george.patch_all(thread=False, select=False)
+
 
 logger = logging.getLogger("dev")
 
 
-def get_request(url, timeout=None):
+def get_request(url, calls=None):
     """
 
     Parameters
@@ -21,18 +28,24 @@ def get_request(url, timeout=None):
     -------
 
     """
-    response = requests.get(url, timeout=timeout)
-    try:
-        # If the response was successful, no Exception will be raised
-        response.raise_for_status()
-    except HTTPError as http_err:
-        logger.exception(f"HTTP error occurred: {http_err}")
-    except Exception as err:
-        pass
-        logger.exception(f"Other error occurred: {err}")
+    # response = requests.get(url, timeout=timeout)
+    if calls is not None:
+        # call multiple times asynchronously
+        number_calls = [url] * calls
+        rs = (grequests.get(u) for u in number_calls)
+    else:
+        # single call
+        rs = (grequests.get(u) for u in [url])
+    responses = grequests.map(rs)
+    result = []
+    for r in responses:
+        if r.status_code == 200:
+            result = r.json()
+            break
+    if len(result) == 0:
+        raise HTTPError("server not responding")
+
     else:
         logger.info(f"HTTP request for {url} was successful!")
 
-    response.encoding = "utf-8"
-
-    return response.json()
+    return result
