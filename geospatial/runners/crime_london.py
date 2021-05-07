@@ -1,11 +1,13 @@
 import argparse
 
 import geopandas as gpd
-import matplotlib.pyplot as plt
 import pandas as pd
 from geospatial.io.api.call_api import get_request
 from geospatial.io.api.crime import get_police_id, get_stop_search_by_force
-from geospatial.plotting.geopandas_maps import add_layer_to_plot, plot_basemap_from_shapefile
+from geospatial.plotting.geopandas_maps import (
+    add_layer_to_plot,
+    plot_basemap_from_shapefile,
+)
 
 
 def argparse_args():
@@ -53,5 +55,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-    plt.show()
+    _, _, ax = main()
