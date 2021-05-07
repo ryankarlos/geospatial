@@ -21,14 +21,15 @@ def plot_basemap_from_shapefile(filepath, projection):
     """
     data = gpd.read_file(filepath)
     if projection == "mercator":
-        data = data.set_crs("EPSG:3395")
+        data_new = data.to_crs("EPSG:3395")
     elif projection == "WGS84":
-        data = data.set_crs("EPSG:4326")
-    elif isinstance(projection, int):
-        data = data.set_crs(f"EPSG:{projection}")
-    ax = data.plot(figsize=(10, 10), alpha=0.5, color="wheat", edgecolor="black")
+        data_new = data.to_crs("EPSG:4326")
+    else:
+        assert isinstance(projection, int)
+        data_new = data.to_crs(f"EPSG:{projection}")
+    ax = data_new.plot(figsize=(10, 10), alpha=0.5, color="wheat", edgecolor="black")
     ax.set_title(f"Basemap with {projection} projection")
-    return data, ax
+    return data_new, ax
 
 
 def add_layer_to_plot(layer_df, ax, base_df):

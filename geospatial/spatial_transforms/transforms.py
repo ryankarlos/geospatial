@@ -1,5 +1,5 @@
 import json
-from typing import Any, Dict, List, Optional, Sequence, Union
+from typing import Any, Dict, Optional, Sequence, Union
 
 import geopandas as gpd
 import pandas as pd
@@ -19,7 +19,7 @@ def check_epsg_code(str):
     return crs.to_epsg()
 
 
-def geocode_locations(df: geopandas.GeoDataFrame, loc_col: str):
+def geocode_locations(df: gpd.GeoDataFrame, loc_col: str):
     """
     Geocode location names into polygon coordinates
     Parameters
@@ -38,8 +38,8 @@ def geocode_locations(df: geopandas.GeoDataFrame, loc_col: str):
 
 
 def merge_df(
-    df1: geopandas.GeoDataFrame,
-    df2: Union[geopandas.GeoDataFrame, pd.DataFrame],
+    df1: gpd.GeoDataFrame,
+    df2: Union[gpd.GeoDataFrame, pd.DataFrame],
     strategy: str,
     **kwargs,
 ):
@@ -61,7 +61,7 @@ def merge_df(
     """
     if strategy == "attribute":
         try:
-            assert isinstance(df1, geopandas.GeoDataFrame)
+            assert isinstance(df1, gpd.GeoDataFrame)
             assert isinstance(df2, pd.DataFrame)
             return df1.merge(df2, **kwargs)
         except AssertionError:
@@ -69,11 +69,11 @@ def merge_df(
                 f"Dataframes passed in need to geopandas and pandas for {strategy} join"
             )
     elif strategy == "spatial":
-        if not isinstance(df1, geopandas.GeoDataFrame) and isinstance(
-            df2, geopandas.GeoDataFrame
-        ):
+        if not isinstance(df1, gpd.GeoDataFrame) and isinstance(df2, gpd.GeoDataFrame):
             raise TypeError(f"Both df need to be Geopandas df for {strategy} join")
-        return geopandas.sjoin(df1, df2, **kwargs)
+        return gpd.sjoin(df1, df2, **kwargs).loc[
+            :, ["latitude", "longitude", "geometry"]
+        ]
 
 
 def response_to_gdf(
