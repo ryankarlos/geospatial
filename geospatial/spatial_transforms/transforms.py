@@ -1,6 +1,7 @@
-from typing import Union
+import json
+from typing import Any, Dict, List, Optional, Sequence, Union
 
-import geopandas
+import geopandas as gpd
 import pandas as pd
 import pyproj
 from geopandas.tools import geocode
@@ -73,3 +74,34 @@ def merge_df(
         ):
             raise TypeError(f"Both df need to be Geopandas df for {strategy} join")
         return geopandas.sjoin(df1, df2, **kwargs)
+
+
+def response_to_gdf(
+    response: Sequence[Dict[str, Any]],
+    base_df: Optional[Union[pd.DataFrame, None]] = None,
+) -> gpd.GeoDataFrame:
+    """
+    Converse the response json
+
+    Parameters
+    ----------
+    response: json
+    Response in json format, received after sending
+    request to police url
+    base_df: (Pd.DataFrame, None): Default:None
+     If base_df specified - sets the crs of the gdf layer
+     to match that of base_df
+
+    Returns
+    -------
+
+    """
+    df = pd.DataFrame(response)
+    df["latitude"] = df["location"].map(lambda x: float(x["latitude"]))
+    df["longitude"] = df["location"].map(lambda x: float(x["longitude"]))
+    ds = gpd.GeoDataFrame(
+        df, geometry=gpd.points_from_xy(df["longitude"], df["latitude"])
+    )
+    if base_df is not None:
+        ds = ds.set_crs(base_df.crs)
+    return ds
