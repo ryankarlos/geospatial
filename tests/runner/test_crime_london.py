@@ -10,7 +10,12 @@ from matplotlib.pyplot import Axes
 def test_crimes_london_runner_e2e():
 
     with mock.patch(
-        "sys.argv", ["runner.py", "-shp=../data/ESRI/London_Borough_Excluding_MHW.shp"]
+        "sys.argv",
+        [
+            "runner.py",
+            "-shp=data/ESRI/London_Borough_Excluding_MHW.shp",
+            "--police_force=City of London Police",
+        ],
     ):
         result = main()
     assert isinstance(result[0], list)
