@@ -1,12 +1,27 @@
-import requests
-from requests.exceptions import HTTPError
 import logging
 
-logger = logging.getLogger(__name__)
+import requests
+from requests.exceptions import HTTPError
+
+logger = logging.getLogger("dev")
 
 
-def get_request(url):
-    response = requests.get(url, timeout=30)
+def get_request(url, timeout=None):
+    """
+
+    Parameters
+    ----------
+    url: str
+    url of the request
+    timeout: Default None
+    A number, or a tuple, indicating how many seconds to wait
+    for the client to make a connection and/or send a response.
+
+    Returns
+    -------
+
+    """
+    response = requests.get(url, timeout=timeout)
     try:
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
