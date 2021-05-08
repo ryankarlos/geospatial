@@ -1,6 +1,7 @@
 import argparse
 from argparse import Namespace
 
+import matplotlib.pyplot as plt
 from geospatial.io.api.crime import get_police_id, get_stop_search_by_force
 from geospatial.logging_config import logging_config
 from geospatial.plotting.geopandas_maps import (
@@ -86,3 +87,5 @@ def main():
 
 if __name__ == "__main__":
     _, _, ax = main()
+    plt.figure()
+    plt.show()

@@ -15,7 +15,7 @@ from matplotlib.pyplot import Axes
             ["runner.py", "-shp=data/ESRI/London_Borough_Excluding_MHW.shp"],
             Namespace(
                 police_force="City of London Police",
-                projection="mercrator",
+                projection="WGS84",
                 shapefile="data/ESRI/London_Borough_Excluding_MHW.shp",
             ),
         ),
@@ -23,12 +23,12 @@ from matplotlib.pyplot import Axes
             [
                 "runner.py",
                 "-shp=data/ESRI/London_Borough_Excluding_MHW.shp",
-                "--proj=WGS84",
+                "--proj=mercator",
                 "--pol=Somerset and Avon",
             ],
             Namespace(
                 police_force="Somerset and Avon",
-                projection="WGS84",
+                projection="mercator",
                 shapefile="data/ESRI/London_Borough_Excluding_MHW.shp",
             ),
         ),

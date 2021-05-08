@@ -1,0 +1,17 @@
+dist: xenial
+language: python
+jobs:
+  include:
+    - name:
+      python: 3.9
+      before_install: pip install pipenv
+      install:
+        - pipenv install
+        - pipenv shell
+        - echo "Using flake8 to check Python code"
+        - flake8 *.py
+        - echo "Using black to check Python code"
+        - black --check *.py
+        - echo "Using isort to check imports"
+        - isort --check *.py
+      script: pytest tests/
