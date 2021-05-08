@@ -7,6 +7,7 @@ jobs:
       before_install: pip install pipenv
       install:
         - pipenv install --dev --skip-lock
-        - echo "Using black to check Python code"
+        - echo "Using black, flake8 to check Python code"
         - black --check *.py
+        - flake8 .
       script: pytest tests/

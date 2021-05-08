@@ -17,7 +17,7 @@ from gevent import monkey as curious_george
 curious_george.patch_all(thread=False, select=False)
 
 # fmt: off
-from geospatial.io.api.call_api import get_request  # isort:skip
+from geospatial.io.api.call_api import get_request  # isort:skip # noqa E402
 
 logger = logging_config("main")
 

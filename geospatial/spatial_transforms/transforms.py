@@ -66,7 +66,7 @@ def merge_df(
         try:
             assert isinstance(df1, gpd.GeoDataFrame)
             assert isinstance(df2, pd.DataFrame)
-            logger.info(f"Merging geodataframe and pd dataframe on attribute")
+            logger.info("Merging geodataframe and pd dataframe on attribute")
             return df1.merge(df2, **kwargs)
         except AssertionError:
             raise TypeError(
@@ -102,7 +102,7 @@ def response_to_gdf(
 
     """
     df = pd.DataFrame(response)
-    logger.info(f"generating lat/lon columns from location tuple")
+    logger.info("generating lat/lon columns from location tuple")
     df["latitude"] = df["location"].map(lambda x: float(x["latitude"]))
     df["longitude"] = df["location"].map(lambda x: float(x["longitude"]))
     ds = gpd.GeoDataFrame(

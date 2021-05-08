@@ -29,4 +29,4 @@ def sample_geodataframe():
 @pytest.fixture(scope="session")
 def sample_dataframe():
     N = 10
-    return pd.DataFrame([{"col": x, "value": y} for x, y in zip(range(10), range(10))])
+    return pd.DataFrame([{"col": x, "value": y} for x, y in zip(range(N), range(N))])

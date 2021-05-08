@@ -23,6 +23,8 @@ pre-commit = "2.12.1"
 flake8="3.9.1"
 isort="5.8.0"
 pytest-mock = "*"
+mypy = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.8.8"

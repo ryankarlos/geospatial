@@ -37,7 +37,7 @@ def get_stop_search_by_force(get_request, police_id, calls):
         ):
             new_list.append(json)
 
-    logger.info(f"Successfully fetched data for latest months")
+    logger.info("Successfully fetched data for latest months")
     return new_list
 
 

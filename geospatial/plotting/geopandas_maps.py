@@ -55,7 +55,7 @@ def add_layer_to_plot(layer_df, ax, base_df):
     plot ax object with all layers
     """
     if base_df.crs != layer_df.crs:
-        logger.info(f"layer df is not same projection as basemap so converting")
+        logger.info("layer df is not same projection as basemap so converting")
         layer_df = layer_df.set_crs(base_df.crs)
     new_ax = layer_df.plot(ax=ax, marker="o", color="red", markersize=5)
     logger.info("Plotting layer with coordinate points on basemap")
