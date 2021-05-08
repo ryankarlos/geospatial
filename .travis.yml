@@ -6,7 +6,7 @@ jobs:
       python: 3.9
       before_install: pip install pipenv
       install:
-        - pipenv install --skip-lock
+        - pipenv install --dev --skip-lock
         - echo "Using black to check Python code"
         - black --check *.py
         - echo "Using isort to check imports"
