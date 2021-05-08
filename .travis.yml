@@ -9,6 +9,4 @@ jobs:
         - pipenv install --dev --skip-lock
         - echo "Using black to check Python code"
         - black --check *.py
-        - echo "Using isort to check imports"
-        - isort **/*.py -c -v
       script: pytest tests/
