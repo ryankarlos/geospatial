@@ -1,10 +1,13 @@
 import os
 
-from geospatial.utils import logging_config
+from geospatial.io.constants import ESRI, GEOJSON
+from geospatial.logging_config import logging_config
+from geospatial.utils import set_working_dir_repo_root
 
 logger = logging_config("io")
 
 
+@set_working_dir_repo_root
 def write_gdf_to_file(df, filename, driver="GeoJSON"):
     """
     write geodataframe to file. Depending on the driver
@@ -21,14 +24,13 @@ def write_gdf_to_file(df, filename, driver="GeoJSON"):
     -------
     """
     path = os.path.join("data", filename)
-    if driver == "GeoJSON":
+    if driver == GEOJSON:
         assert filename.split(".")[1] == "geojson"
-    elif driver == "ESRI Shapefile":
+    elif driver == ESRI:
         assert filename.split(".")[1] == "shp"
     else:
         raise ValueError(
-            f"driver must be either 'GeoJSON' or ''ESRI Shapefile'."
-            f"You passed {driver}"
+            f"driver must be either {GEOJSON} or {ESRI}." f"You passed {driver}"
         )
 
     df.to_file(path, driver=driver)

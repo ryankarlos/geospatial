@@ -1,8 +1,6 @@
 import argparse
 from argparse import Namespace
 
-import matplotlib.pyplot as plt
-from geospatial.io.api.call_api import get_request
 from geospatial.io.api.crime import get_police_id, get_stop_search_by_force
 from geospatial.logging_config import logging_config
 from geospatial.plotting.geopandas_maps import (
@@ -13,10 +11,12 @@ from geospatial.spatial_transforms.transforms import merge_df, response_to_gdf
 from geospatial.utils import set_working_dir_repo_root
 from gevent import monkey as curious_george
 
-# need to patch before import func which uses grequests
+# need to patch before importing function using grequests
 # https://stackoverflow.com/questions/56309763/grequests-monkey-patch-warning
 curious_george.patch_all(thread=False, select=False)
 
+# fmt: off
+from geospatial.io.api.call_api import get_request  # isort:skip
 
 logger = logging_config("main")
 
@@ -86,5 +86,3 @@ def main():
 
 if __name__ == "__main__":
     _, _, ax = main()
-    logger.info("Generating overlay plot of crimes on basemap")
-    plt.show()

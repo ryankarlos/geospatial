@@ -7,6 +7,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 pd.set_option("display.max_columns", 15)
 
 logger = logging_config("plot")
+logger.propagate = False
 
 
 def plot_basemap_from_shapefile(filepath, projection):
@@ -32,6 +33,7 @@ def plot_basemap_from_shapefile(filepath, projection):
     else:
         assert isinstance(projection, int)
         data_new = data.to_crs(f"EPSG:{projection}")
+    logger.info(f"basemap has been converted from {data.crs} to {data_new.crs}")
     ax = data_new.plot(figsize=(10, 10), alpha=0.5, color="wheat", edgecolor="black")
     ax.set_title(f"Basemap with {projection} projection")
     return data_new, ax
@@ -53,8 +55,12 @@ def add_layer_to_plot(layer_df, ax, base_df):
     plot ax object with all layers
     """
     if base_df.crs != layer_df.crs:
+        logger.info(f"layer df is not same projection as basemap so converting")
         layer_df = layer_df.set_crs(base_df.crs)
     new_ax = layer_df.plot(ax=ax, marker="o", color="red", markersize=5)
+    logger.info("Plotting layer with coordinate points on basemap")
+    plt.figure()
+    plt.show()
     return new_ax
 
 
@@ -69,9 +75,3 @@ def choloropeth_map(df, col):
         legend_kwds={"label": "Population by Country"},
         cax=cax,
     )
-
-
-if __name__ == "__main__":
-    df1 = pd.read_parquet("data/london_basemap.parquet")
-    df2 = pd.read_parquet("data/london_crime.parquet")
-    print(df2)

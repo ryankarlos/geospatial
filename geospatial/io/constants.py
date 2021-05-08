@@ -1,2 +1,9 @@
 URL_CRIME = "https://data.police.uk/api/"
 IGNORED_OUTCOMES = ["A no further action disposal", False, ""]
+GEOJSON = "GeoJSON"
+ESRI = "ESRI Shapefile"
+OUTCOME = "outcome"
+LOCATION = "location"
+FORCES = "forces"
+NAME = "name"
+ID = "id"

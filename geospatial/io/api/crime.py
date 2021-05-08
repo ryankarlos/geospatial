@@ -1,6 +1,14 @@
 import os
 
-from geospatial.io.constants import IGNORED_OUTCOMES, URL_CRIME
+from geospatial.io.constants import (
+    FORCES,
+    ID,
+    IGNORED_OUTCOMES,
+    LOCATION,
+    NAME,
+    OUTCOME,
+    URL_CRIME,
+)
 from geospatial.logging_config import logging_config
 
 logger = logging_config("io")
@@ -24,8 +32,8 @@ def get_stop_search_by_force(get_request, police_id, calls):
     # url = os.path.join(URL_CRIME, f"stops-force?force={police_id}&date={date}")
     response = get_request(url, calls)
     for json in response:
-        if (json.get("outcome") not in IGNORED_OUTCOMES) and (
-            json.get("location") is not None
+        if (json.get(OUTCOME) not in IGNORED_OUTCOMES) and (
+            json.get(LOCATION) is not None
         ):
             new_list.append(json)
 
@@ -37,11 +45,11 @@ def get_police_id(func, force_name):
     """
     Get police id and police force names in json
     """
-    url = os.path.join(URL_CRIME, "forces")
+    url = os.path.join(URL_CRIME, FORCES)
     response = func(url)
     for json in response:
-        if json.get("name") == force_name:
-            police_id = json.get("id")
+        if json.get(NAME) == force_name:
+            police_id = json.get(ID)
             logger.info(f"Police id for {force_name}:- '{police_id}'")
             return police_id
 
