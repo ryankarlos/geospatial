@@ -1,32 +1,23 @@
-import logging
-
 from requests.exceptions import HTTPError
 
 import grequests
-from gevent import monkey as curious_george
+from geospatial.logging_config import logging_config
 
-# need to patch before import func which uses grequests
-# https://stackoverflow.com/questions/56309763/grequests-monkey-patch-warning
-curious_george.patch_all(thread=False, select=False)
-
-
-logger = logging.getLogger("dev")
+logger = logging_config("io")
 
 
 def get_request(url, calls=None):
     """
-
+    Make requests asynchronously and collec list of responses
     Parameters
     ----------
     url: str
     url of the request
-    timeout: Default None
-    A number, or a tuple, indicating how many seconds to wait
-    for the client to make a connection and/or send a response.
-
+    calls: Optional (int, None)
+    Number of calls to make to the url - defaults to None for
+    single request
     Returns
     -------
-
     """
     # response = requests.get(url, timeout=timeout)
     if calls is not None:

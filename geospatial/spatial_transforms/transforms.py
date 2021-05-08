@@ -5,6 +5,9 @@ import geopandas as gpd
 import pandas as pd
 import pyproj
 from geopandas.tools import geocode
+from geospatial.logging_config import logging_config
+
+logger = logging_config("transformer")
 
 
 def check_epsg_code(str):
@@ -63,6 +66,7 @@ def merge_df(
         try:
             assert isinstance(df1, gpd.GeoDataFrame)
             assert isinstance(df2, pd.DataFrame)
+            logger.info(f"Merging geodataframe and pd dataframe on attribute")
             return df1.merge(df2, **kwargs)
         except AssertionError:
             raise TypeError(
@@ -71,6 +75,7 @@ def merge_df(
     elif strategy == "spatial":
         if not isinstance(df1, gpd.GeoDataFrame) and isinstance(df2, gpd.GeoDataFrame):
             raise TypeError(f"Both df need to be Geopandas df for {strategy} join")
+        logger.info(f"carrying out spatial join with following settings: {kwargs}")
         return gpd.sjoin(df1, df2, **kwargs).loc[
             :, ["latitude", "longitude", "geometry"]
         ]
@@ -97,11 +102,13 @@ def response_to_gdf(
 
     """
     df = pd.DataFrame(response)
+    logger.info(f"generating lat/lon columns from location tuple")
     df["latitude"] = df["location"].map(lambda x: float(x["latitude"]))
     df["longitude"] = df["location"].map(lambda x: float(x["longitude"]))
     ds = gpd.GeoDataFrame(
         df, geometry=gpd.points_from_xy(df["longitude"], df["latitude"])
     )
     if base_df is not None:
+        logger.info(f"Setting projection of layer same as basemap: {base_df.crs}")
         ds = ds.set_crs(base_df.crs)
     return ds

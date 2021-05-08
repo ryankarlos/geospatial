@@ -1,9 +1,9 @@
-import logging
 import os
 
 from geospatial.io.constants import IGNORED_OUTCOMES, URL_CRIME
+from geospatial.logging_config import logging_config
 
-logger = logging.getLogger("dev")
+logger = logging_config("io")
 
 
 def get_neighbourhoods(get_request, police_id):

@@ -1,7 +1,12 @@
 import geopandas as gpd
+import matplotlib.pyplot as plt
 import pandas as pd
+from geospatial.logging_config import logging_config
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 pd.set_option("display.max_columns", 15)
+
+logger = logging_config("plot")
 
 
 def plot_basemap_from_shapefile(filepath, projection):
@@ -53,5 +58,20 @@ def add_layer_to_plot(layer_df, ax, base_df):
     return new_ax
 
 
-def choloropeth_map():
-    pass
+def choloropeth_map(df, col):
+    fig, ax = plt.subplots(1, 1)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.1)
+    return df.plot(
+        column=col,
+        ax=ax,
+        legend=True,
+        legend_kwds={"label": "Population by Country"},
+        cax=cax,
+    )
+
+
+if __name__ == "__main__":
+    df1 = pd.read_parquet("data/london_basemap.parquet")
+    df2 = pd.read_parquet("data/london_crime.parquet")
+    print(df2)
