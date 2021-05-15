@@ -15,6 +15,7 @@ grequests = "*"
 cython = "*"
 pyproj = "*"
 gitpython = "3.1.14"
+jupyter = "*"
 
 [dev-packages]
 pytest = "6.2.4"
@@ -25,6 +26,7 @@ isort="5.8.0"
 pytest-mock = "*"
 mypy = "*"
 pylint = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.8.8"
