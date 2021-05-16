@@ -16,6 +16,7 @@ cython = "*"
 pyproj = "*"
 gitpython = "3.1.14"
 jupyter = "*"
+flask = "*"
 
 [dev-packages]
 pytest = "6.2.4"
